@@ -4,96 +4,105 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <set>
+#include <map>
+#include <algorithm>
 #include "pratic_func.h"
 
 using namespace std;
 
 class Person{
-	friend  istream &read(istream &information, Person ps1);
-	friend  ostream &print(ostream &information, const Person ps1);
-	friend  Person add(const Person &ps1, const Person &ps2);
+	friend  istream &operator>>(istream &, Person &);
+	friend  ostream &operator<<(ostream &, const Person &);
+	friend  Person operator+(const Person &, const Person &);
+	friend  bool operator==(const Person &, const Person &);
+	friend  bool operator!=(const Person &, const Person &);
 public:
 	Person() = default;
 	Person(const string &n,const string &ad) : name(n), address(ad) {}
-	Person(const string &n,const string &ad, int pr_ad) :name(n), address(ad),price_address(pr_ad) {}
-	Person(istream &information) { read(information, *this); }
+	Person(const string &n,const string &ad, int pr_ad) :name(n), address(ad), 
+		the_most_exp_value_address_price(pr_ad), the_low_value_address_price(pr_ad), address_price(pr_ad) {}
+	Person(istream &) {}
 	Person(const Person&) = default;
+	Person(Person&&) = default;
 	Person &operator=(const Person&) = default;
-    string name_information()  const{ return name; }
-	string address_information() { return address; }
-	Person &add_price_count_address(const Person &ps1);
-	Person &change_the_most_expensive_value_address(const Person &ps1);
-	Person &change_the_lowest_value_address(const Person &ps1);
-	Person &first_define_exp_low_value_address();
+	Person &operator+=(const Person&);
+	Person &operator=(Person&&) = default;
+    string name_infor() const{ return name; }
+	string address_infor() const { return address; }
+	void change_the_most_exp_low_value_address_price(const Person &ps1);
+	~Person() = default;
 private:
 	string name;
-    string address;
-	int count_address = 1;
-	int price_address = 0;
-	int the_most_expensive_value_address = 0;
-	int the_lowest_value_address = 0;
+	string address;
+	int address_count = 1;
+	int address_price = 0;
+	int the_most_exp_value_address_price = 0 ;
+	int the_low_value_address_price = 0 ;
 };
-istream &read(istream &information, Person ps1);
-ostream &print(ostream &information, const Person ps1);
-Person add(const Person &p1, const Person &p2);
+istream &operator>>(istream &infor, Person &ps1);
+ostream &operator<<(ostream &infor, const Person &ps1);
+Person operator+(const Person &ps1, const Person &ps2);
+bool operator==(const Person &ps1, const Person &ps2);
+bool operator!=(const Person &ps1, const Person &ps2);
 
 
 
-istream &read(istream &information, Person ps1)
+
+istream &operator>>(istream &infor, Person &ps1)
 {
-	cin >> ps1.name >> ps1.address >>ps1.count_address>>ps1.price_address;
-	ps1.the_most_expensive_value_address = ps1.price_address;
-	ps1.the_lowest_value_address = ps1.price_address;
-	return information;
+	cin >> ps1.name >> ps1.address >> ps1.address_count >> ps1.address_price;
+	return infor;
 }
 
-ostream &print(ostream &information,  Person ps1)
+ostream &operator<<(ostream &infor, const Person &ps1)
 {
-	cout << ps1.name_information() << " " << ps1.address_information()
-		<< " " << ps1.count_address << " " << ps1.price_address
-		<<" "<<ps1.the_most_expensive_value_address<<" "
-		<<ps1.the_lowest_value_address;
-	return information;
-} 
-
-
-
-Person &Person::add_price_count_address(const Person &ps1)
-{
-	count_address += ps1.count_address;
-	price_address += ps1.price_address;
-	address += " " + ps1.address;
-	return *this;
+	cout << "NAME   "<< ps1.name_infor() << endl;
+	cout << "ADDRESS IN   " << ps1.address_infor() << endl;
+	cout << "ADDRESS TOTAL COUNT   " << ps1.address_count << endl;
+	cout << "ADDRESS TOTAL PRICE   " << ps1.address_price << endl;
+	cout << "MOST EXPENSIVE   " << ps1.the_most_exp_value_address_price << endl;
+	cout << "lOWEST   " << ps1.the_low_value_address_price << endl;;
+	return infor;
 }
 
-
-Person add(const Person &ps1,const Person &ps2)
+Person operator+(const Person &ps1, const Person &ps2)
 {
-	Person ps3 = ps1;
-	ps3.add_price_count_address(ps2);
-	return ps3;
+	Person sum = ps1;
+	sum += ps2;
+	return sum;
 }
 
-
-inline Person &Person::change_the_most_expensive_value_address(const Person &ps1)
+bool operator==(const Person &ps1, const Person &ps2)
 {
-	if (the_most_expensive_value_address < ps1.price_address) {
-		the_most_expensive_value_address = ps1.price_address;
+	return ps1.name == ps2.name &&
+		   ps1.address_count == ps2.address_count &&
+	       ps1.address_price == ps2.address_price;
+}
+
+bool operator!=(const Person &ps1, const Person &ps2)
+{
+	return !(ps1 == ps2);
+}
+
+inline Person & Person::operator+=(const Person &ps1)
+{
+	address_count += ps1.address_count;
+	if (!address.find(ps1.address)) {
+		address += " " + ps1.address;
 	}
+	address_price += ps1.address_price;
+	this->change_the_most_exp_low_value_address_price(ps1);
 	return *this;
 }
 
-inline Person &Person::change_the_lowest_value_address(const Person & ps1)
+inline void Person::change_the_most_exp_low_value_address_price(const Person & ps1)
 {
-	if (the_lowest_value_address > ps1.the_lowest_value_address) {
-		the_lowest_value_address = ps1.the_lowest_value_address;
+	if(address_price < ps1.address_price) {
+		the_most_exp_value_address_price = ps1.address_price;
 	}
-	return *this;
-}
 
-inline Person & Person::first_define_exp_low_value_address()
-{
-	the_most_expensive_value_address = price_address;
-	the_lowest_value_address = price_address;
-	return *this;
+	if(address_price > ps1.address_price) {
+	the_low_value_address_price = ps1.address_price;
+	}
 }
