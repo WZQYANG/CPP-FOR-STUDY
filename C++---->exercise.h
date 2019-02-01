@@ -2,16 +2,18 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <sstream>
+#include <set>
+#include <map> 
 #include "pratic_func.h"
 #include "Person.h"
-#include <sstream>
 #include "windows.h"
 
 using namespace std;
 
 int main()
 {
-	
+	/**
 	//STRING
 
 
@@ -63,27 +65,6 @@ int main()
 
 	os_vector_char(cs,vc1);
 
-
-	//class Person 
-
-	Person ps1("peter","wuhan", 100);
-	Person ps2("peter","shanghai", 2000);
-	Person ps3("peter","wuhan", 300);
-	
-
-	ps1.first_define_exp_low_value_address();
-	ps2.first_define_exp_low_value_address();
-	if (ps1.name_information() == ps2.name_information() 
-		&& ps2.name_information() == ps3.name_information()) {
-		ps1.change_the_lowest_value_address(ps2);
-		ps1.change_the_most_expensive_value_address(ps2).change_the_most_expensive_value_address(ps3);
-	    ps1.add_price_count_address(ps2).add_price_count_address(ps3);
-		
-	}
-	print(cout, ps1) << endl;
-	
-
-	
 	string str("91111111111");
 	stringstream ss;
 	int digit;
@@ -91,8 +72,23 @@ int main()
 	ss >> digit;
 	cout << digit;
 	cout << endl;
-	
+
 	MessageBoxA(NULL, "C++", "HUAN YING", NULL);
+
+	*/
+
+
+	//class Person 
+
+	Person ps1("peter", "wuhan", 100);
+	Person ps2("peter", "shanghai", 2000);
+	Person ps3("peter", "wuhan", 300);
+
+	if (ps1.name_infor() == ps2.name_infor()) {	
+		ps1 += ps2;
+	}
+	ps1 += ps3;
+	cout << ps1 << endl;
 
 	return 0;
 }
