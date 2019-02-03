@@ -25,7 +25,7 @@ public:
 	Person(istream &) {}
 	Person(const Person&);
 	Person(Person&&) = default; 
-	Person &operator=(const Person&) = default;
+	Person &operator=(const Person&);
 	Person &operator+=(const Person&);
 	Person &operator=(Person&&) = default;
     string name_infor() const{ return name; }
@@ -92,6 +92,18 @@ inline Person::Person(const Person &ps1):
 	the_low_price(ps1.the_low_price), 
 	total_price(ps1.total_price)
 	{}
+
+inline Person & Person::operator=(const Person &ps1)
+{
+	name = ps1.name;
+	address = ps1.address;
+	address_count = ps1.address_count;
+	address_price = ps1.address_price;
+	the_most_exp_price = ps1.the_most_exp_price;
+	the_low_price = ps1.the_low_price;
+	total_price = ps1.total_price;
+	return *this;
+}
 
 inline Person & Person::operator+=(const Person &ps1)
 {
