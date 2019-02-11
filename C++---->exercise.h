@@ -1,10 +1,5 @@
 #include "pch.h"
 #include <iostream>
-#include <string>
-#include <vector>
-#include <sstream>
-#include <set>
-#include <map> 
 #include "pratic_func.h"
 #include "Person.h"
 #include "windows.h"
@@ -13,7 +8,7 @@ using namespace std;
 
 int main()
 {
-	/**
+	/*
 	//STRING
 
 
@@ -75,21 +70,55 @@ int main()
 
 	MessageBoxA(NULL, "C++", "HUAN YING", NULL);
 
-	*/
+	
 
 
 	//class Person 
 
-	Person ps1("peter", "wuhan", 100);
-	Person ps2("peter", "shanghai", 2000);
-	Person ps3("peter", "wuhan", 300);
+	Person ps1("peter", "wuhan",100);             //第一个构造函数
+	Person ps2("peter", "shanghai", 2000);    //第二个构造函数
+	Person ps3("peter", "wuhan", 300);        // 同第二个构造函数
+	string s = "peter";
+	Person ps4(s, "shanghai", 100);
+	Person ps5(ps4);
+	Person ps6 = ps5;
+	Person ps7(std::move(ps6));
+	Person ps8 = std::move(ps7); 
 
 	if (ps1.name_infor() == ps2.name_infor()) {	
 		ps1 += ps2;
 	}
 	ps1 += ps3;
-	cout << ps1 << endl;
+	ps1 += ps4;
+	vector<Person> per = { ps1, ps2, ps3, ps4, ps5, ps6, ps7 };
+	for (auto &i : per) {
+		cout << i << endl;
+	}
+	
 
+	string t("abcdefg");
+	string f("mm");
+	auto a = t.find(f);
+	cout << a << endl;
+
+
+
+	string ss = "abc" ;
+	string &sref = ss;
+	string *nonestring = &ss;
+	string *dystring = new string(ss);
+	string *dystring2 = new string(ss);
+	*dystring = "bbbb";
+	nonestring = dystring;
+	delete nonestring;
+	nonestring = dystring2;
+	cout << ss << endl;
+	cout << *nonestring << endl;
+
+	*/
+
+	ifstream infile;
+	runPerson(infile);
 	return 0;
 }
 
