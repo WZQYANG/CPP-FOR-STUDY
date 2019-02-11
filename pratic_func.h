@@ -1,3 +1,10 @@
+#pragma once
+
+#ifndef PRATIC_FUNC_H
+#define PRATIC_FUNC_H
+
+
+
 #include "pch.h"
 #include <string>
 #include <vector>
@@ -27,3 +34,9 @@ void os_push_back_self(const string &vs, vector<string> &vs1);
 //VECTOR<CHAR>
 void os_vector_char(const string &vs, vector<char> &vc1);
 
+//class
+void runPerson(ifstream &infile);
+
+
+
+#endif// !PRATIC_FUNC_H
