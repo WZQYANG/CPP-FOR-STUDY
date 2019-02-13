@@ -1,5 +1,6 @@
 #include "pch.h"
 #include <iostream>
+#include <fstream>
 #include "pratic_func.h"
 #include "Person.h"
 #include "windows.h"
@@ -8,6 +9,12 @@ using namespace std;
 
 int main()
 {
+	ifstream is("exr");
+	Person_Infor ps1(is);
+	runPerson(ps1);
+	return 0;
+
+
 	/*
 	//STRING
 
@@ -37,7 +44,7 @@ int main()
 	//vector<int>vi1
 	vector<int>vi1(vi);
 	vector<int>vi2{ 1, 23, 21, 111, 500, 45 };
-
+	 
 	add_sum_one_to_hundred(vi1);
 	mult_i(vi1);
 	os_sum1_sum2_dig2(vi1);
@@ -117,9 +124,7 @@ int main()
 
 	*/
 
-	ifstream infile;
-	runPerson(infile);
-	return 0;
+	
 }
 
 
