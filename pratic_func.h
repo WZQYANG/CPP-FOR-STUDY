@@ -8,6 +8,7 @@
 #include "pch.h"
 #include <string>
 #include <vector>
+#include "Person.h"
 using namespace std;
 
 //STRING
@@ -35,7 +36,7 @@ void os_push_back_self(const string &vs, vector<string> &vs1);
 void os_vector_char(const string &vs, vector<char> &vc1);
 
 //class
-void runPerson(ifstream &infile);
+void runPerson(Person_Infor &ps_infor_total);
 
 
 
