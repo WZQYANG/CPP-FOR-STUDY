@@ -1,10 +1,6 @@
 #include "pch.h"
 #include <iostream>
-#include <string>
-#include <vector>
-#include <sstream>
-#include <set>
-#include <map> 
+#include <fstream>
 #include "pratic_func.h"
 #include "Person.h"
 #include "windows.h"
@@ -13,7 +9,13 @@ using namespace std;
 
 int main()
 {
-	/**
+	ifstream is("exr");
+	Person_Infor ps1(is);
+	runPerson(ps1);
+	return 0;
+
+
+	/*
 	//STRING
 
 
@@ -42,7 +44,7 @@ int main()
 	//vector<int>vi1
 	vector<int>vi1(vi);
 	vector<int>vi2{ 1, 23, 21, 111, 500, 45 };
-
+	 
 	add_sum_one_to_hundred(vi1);
 	mult_i(vi1);
 	os_sum1_sum2_dig2(vi1);
@@ -75,22 +77,54 @@ int main()
 
 	MessageBoxA(NULL, "C++", "HUAN YING", NULL);
 
-	*/
+	
 
 
 	//class Person 
 
-	Person ps1("peter", "wuhan", 100);
-	Person ps2("peter", "shanghai", 2000);
-	Person ps3("peter", "wuhan", 300);
+	Person ps1("peter", "wuhan",100);             //第一个构造函数
+	Person ps2("peter", "shanghai", 2000);    //第二个构造函数
+	Person ps3("peter", "wuhan", 300);        // 同第二个构造函数
+	string s = "peter";
+	Person ps4(s, "shanghai", 100);
+	Person ps5(ps4);
+	Person ps6 = ps5;
+	Person ps7(std::move(ps6));
+	Person ps8 = std::move(ps7); 
 
 	if (ps1.name_infor() == ps2.name_infor()) {	
 		ps1 += ps2;
 	}
 	ps1 += ps3;
-	cout << ps1 << endl;
+	ps1 += ps4;
+	vector<Person> per = { ps1, ps2, ps3, ps4, ps5, ps6, ps7 };
+	for (auto &i : per) {
+		cout << i << endl;
+	}
+	
 
-	return 0;
+	string t("abcdefg");
+	string f("mm");
+	auto a = t.find(f);
+	cout << a << endl;
+
+
+
+	string ss = "abc" ;
+	string &sref = ss;
+	string *nonestring = &ss;
+	string *dystring = new string(ss);
+	string *dystring2 = new string(ss);
+	*dystring = "bbbb";
+	nonestring = dystring;
+	delete nonestring;
+	nonestring = dystring2;
+	cout << ss << endl;
+	cout << *nonestring << endl;
+
+	*/
+
+	
 }
 
 

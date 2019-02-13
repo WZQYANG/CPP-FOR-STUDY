@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 #include "pratic_func.h"
+#include "Person.h"
+
 using namespace std;
 
 //FUNC OF STRING
@@ -172,5 +174,10 @@ void os_vector_char(const string &vs, vector<char> &vc1)
 		cout << ch2;
 	}
 	cout << "\n" << endl;
+}
+
+void runPerson(Person_Infor &ps_infor_total) {
+	Person_Calculate ps_cal_total(ps_infor_total);
+	cout << ps_cal_total << endl;
 }
 

@@ -1,6 +1,14 @@
+#pragma once
+
+#ifndef PRATIC_FUNC_H
+#define PRATIC_FUNC_H
+
+
+
 #include "pch.h"
 #include <string>
 #include <vector>
+#include "Person.h"
 using namespace std;
 
 //STRING
@@ -27,3 +35,9 @@ void os_push_back_self(const string &vs, vector<string> &vs1);
 //VECTOR<CHAR>
 void os_vector_char(const string &vs, vector<char> &vc1);
 
+//class
+void runPerson(Person_Infor &ps_infor_total);
+
+
+
+#endif// !PRATIC_FUNC_H
