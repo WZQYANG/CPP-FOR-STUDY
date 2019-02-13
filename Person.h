@@ -60,22 +60,12 @@ class Person_Calculate;
 class Person_Infor
 {
 	friend class Person_Calculate;
+	friend ifstream &read(ifstream& is, Person_Infor &p_i);
 public:
 	Person_Infor() = default;
-	Person_Infor(ifstream &is) :name(), address(), two_string_multimap()
-	{
-		string ex;
-		while (getline(is, ex)) {
-			if(ex != "over") {
-				istringstream line(ex);
-				line >> name;
-				line >> address;
-				two_string_multimap.insert({ name, address });// 向map添加元素 《cpp primer》p384
-			}
-		}
-	}
-	Person_Infor(const Person_Infor &) = delete;
-	Person_Infor(Person_Infor &&) = delete;
+	Person_Infor(ifstream &is) { read(is, *this); }
+	Person_Infor(const Person_Infor &) = default;
+	Person_Infor(Person_Infor &&) = default;
 	multimap<string, string> map() { return two_string_multimap; }
 	~Person_Infor() = default;
 private:
@@ -83,44 +73,66 @@ private:
 	string address;
 	multimap<string, string> two_string_multimap;
 };
+ifstream &read(ifstream& is, Person_Infor &p_i);
 
 
 
 class Person_Calculate
 {
-	friend ostream &print(ostream &,const Person_Calculate &);
+	friend ostream &operator<<(ostream &,const Person_Calculate &);
 public:
 	Person_Calculate() = default;
-	Person_Calculate(Person_Infor &p_i) :name(), address(), address_set(), name_string_set()
+	Person_Calculate(Person_Infor &p_i)
 	{
-		auto goto_map = p_i.map();
-		auto search_person = goto_map.begin();
-		auto search = search_person->first;
-		auto beg = goto_map.lower_bound(search), end = goto_map.upper_bound(search);
-		for (; beg != goto_map.end();) {
-			for (; beg != end; ++beg) {
-				address_set.insert({ beg->second });
+		if (p_i.map().size() != 0) {    // can not dereference map/set iterator !
+			auto goto_map = p_i.map();
+			auto search_person = goto_map.begin();
+			auto search = search_person->first;          
+			auto beg = goto_map.lower_bound(search), end = goto_map.upper_bound(search);                   
+			for (; beg != goto_map.end();) {                                                               
+				for (; beg != end; ++beg) {
+					address_set.insert({ beg->second });
+				}
+				--beg;
+				name_string_set.insert(pair<string, set<string>>(beg->first, address_set));
+				address_set.erase(address_set.begin(), address_set.end());
+				if (end != goto_map.end()) {
+					search = end->first;
+					beg = goto_map.lower_bound(search);
+					end = goto_map.upper_bound(search);
+				}
+				else
+					beg = goto_map.end();
 			}
-			--beg;
-			name_string_set.insert({ beg->first, address_set });
-			address_set.erase(address_set.begin(), address_set.end());
-			if (end != goto_map.end()) {
-				search = end->first;
-				beg = goto_map.lower_bound(search);
-				end = goto_map.upper_bound(search);
-			}
-			else
-				break;
 		}
 	}
+	Person_Calculate(const Person_Calculate &) = default;
+	Person_Calculate(Person_Calculate &&) = default;
 	~Person_Calculate() = default;
 private:
 	string name;
-	string address;
 	set<string> address_set;
 	map<string, set<string>> name_string_set;
 };
-ostream &print(ostream &,const Person_Calculate &);
+ostream &operator<<(ostream &,const Person_Calculate &);
+
+
+/*
+Person_Infor(ifstream &is) :name(), address(), two_string_multimap()
+{
+	string ex;
+	while (getline(is, ex)) {
+		if (ex != "over") {
+			istringstream line(ex);
+			line >> name >> address;
+			two_string_multimap.insert(pair<string, string>(name, address));// 向map添加元素 《cpp primer》p384
+		}
+	}
+}
+
+*/
+
+
 
 /*
 class Person{
