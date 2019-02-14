@@ -31,31 +31,12 @@ using namespace std;
 		并构建一个map<set<string>,vector<int>>.
 
 	Person_Infor ps_infor_total(ifstream &infile);
-	Person_Calculate ps_cal_total(ps_infor_total.multimap);
-	Person_Result ps_res(ps_cal_total);
-	print(cout,ps_res);
-
-
-
-	总体要求：
-
-	1、从输入中读取出name、address，构建multimap<string,string>.
-	2、统计出每个name对应的所有address（set<string>).
-	3、打印出每一个name对应的所有有效数据。
-
-	构建过程：
-
-	1、一个Person_Infor类，用于构建并保存数据 ：multimap<string,string>.
-	2、一个Person_Calculate类，用于构建一个set<string>,然后构建一个map<string,set<string>>.
-	3、打印。
-
-	Person_Infor ps_infor_total(istream &infile);
 	Person_Calculate ps_cal_total(ps_infor_total);
 	cout<<ps_cal_total;
 
 */
 
-class Person_Calculate;
+//class Person_Infor
 
 class Person_Infor
 {
@@ -66,72 +47,43 @@ public:
 	Person_Infor(ifstream &is) { read(is, *this); }
 	Person_Infor(const Person_Infor &) = default;
 	Person_Infor(Person_Infor &&) = default;
-	multimap<string, string> map() { return two_string_multimap; }
+	multimap<string, string> func_name_place() { return name_place_mmp; }
+	multimap<string, int> func_name_price() { return name_price_mmp; }
 	~Person_Infor() = default;
 private:
 	string name;
 	string address;
-	multimap<string, string> two_string_multimap;
+	int price = 0;
+	multimap<string, string> name_place_mmp;
+	multimap<string, int> name_price_mmp;
+	
 };
 ifstream &read(ifstream& is, Person_Infor &p_i);
 
 
+
+//class Person_Calculate
 
 class Person_Calculate
 {
 	friend ostream &operator<<(ostream &,const Person_Calculate &);
 public:
 	Person_Calculate() = default;
-	Person_Calculate(Person_Infor &p_i)
-	{
-		if (p_i.map().size() != 0) {    // can not dereference map/set iterator !
-			auto goto_map = p_i.map();
-			auto search_person = goto_map.begin();
-			auto search = search_person->first;          
-			auto beg = goto_map.lower_bound(search), end = goto_map.upper_bound(search);                   
-			for (; beg != goto_map.end();) {                                                               
-				for (; beg != end; ++beg) {
-					address_set.insert({ beg->second });
-				}
-				--beg;
-				name_string_set.insert(pair<string, set<string>>(beg->first, address_set));
-				address_set.erase(address_set.begin(), address_set.end());
-				if (end != goto_map.end()) {
-					search = end->first;
-					beg = goto_map.lower_bound(search);
-					end = goto_map.upper_bound(search);
-				}
-				else
-					beg = goto_map.end();
-			}
-		}
-	}
+	Person_Calculate(Person_Infor &);
 	Person_Calculate(const Person_Calculate &) = default;
 	Person_Calculate(Person_Calculate &&) = default;
 	~Person_Calculate() = default;
 private:
 	string name;
 	set<string> address_set;
-	map<string, set<string>> name_string_set;
+	int address_Low_price = 0;
+	int address_Exp_price = 0;
+	int address_total_price = 0;
+	vector<int> price_vect;
+	map<string, set<string>> name_address_set_mp;
+	map<string, vector<int>> name_price_vec_map;
 };
 ostream &operator<<(ostream &,const Person_Calculate &);
-
-
-/*
-Person_Infor(ifstream &is) :name(), address(), two_string_multimap()
-{
-	string ex;
-	while (getline(is, ex)) {
-		if (ex != "over") {
-			istringstream line(ex);
-			line >> name >> address;
-			two_string_multimap.insert(pair<string, string>(name, address));// 向map添加元素 《cpp primer》p384
-		}
-	}
-}
-
-*/
-
 
 
 /*
