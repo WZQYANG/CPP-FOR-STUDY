@@ -1,6 +1,7 @@
 #include "pch.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include "pratic_func.h"
 #include "Person.h"
 #include "windows.h"
@@ -9,13 +10,29 @@ using namespace std;
 
 int main()
 {
-	ifstream is("exr");
+	ifstream is("C://Users//strong//Desktop//exr.txt");
 	Person_Infor ps1(is);
 	runPerson(ps1);
 	return 0;
 
 
 	/*
+	string ss;
+	if (is.is_open()) {
+		cout << "ok" << endl;
+		while (getline(is, ss)) {
+			stringstream t;
+			string m;
+			t << ss;
+			t >> m;
+			cout << m << endl;
+		}
+	}
+	else if(!is.is_open()) {
+		cout << "no" << endl;
+	}
+
+
 	//STRING
 
 
